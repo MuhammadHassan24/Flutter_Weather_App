@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:weatherapp/view/ui/home_view.dart';
+import 'package:provider/provider.dart';
+import 'package:weatherapp/provider/counter_provider.dart';
+import 'package:weatherapp/utils/routes/routes.dart' as router;
+import 'package:weatherapp/utils/routes/routes_name.dart';
 
 void main() {
   runApp(const MyApp());
@@ -8,12 +11,17 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(useMaterial3: true),
-      home: const HomeView(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => CounterProvider())
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        onGenerateRoute: router.generateRoutes,
+        initialRoute: HomeViewRoute,
+      ),
     );
   }
 }
